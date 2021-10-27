@@ -1,0 +1,61 @@
+<template>
+    <div class="panel panel-default">
+       <div>{Title}</div>
+       <template if:true={paginationRequired}>
+          <div class="slds-grid" slot="actions">
+          <div class="slds-col">
+          <lightning-button variant="neutral" title="first" label="First" class="slds-float_left" icon-name="utility:jump_to_left" icon-position="left" onclick={handleFirst} disabled={hideFirst}></lightning-button>
+          &nbsp;
+          <lightning-button variant="neutral" title="previous" class="slds-float_left" label="Previous" icon-name="utility:chevronleft" icon-position="left" onclick={handlePrevious} disabled={hidePrevious}></lightning-button>
+          </div>
+          <div class="slds-col" style="height:20px;line-height:20px;padding:4px;">
+          Page {pageNo} of {totalPages}
+          </div>
+          <div class="slds-col">
+            <lightning-button variant="neutral" title="last" class="slds-float_right" label="Last" icon-name="utility:jump_to_right" icon-position="right" onclick={handleLast} disabled={hideLast}></lightning-button>
+            &nbsp;
+            <lightning-button variant="neutral" title="next" class="slds-float_right" label="Next" icon-name="utility:chevronright" icon-position="right" onclick={handleNext} disabled={hideNext}></lightning-button>
+          </div>
+      </div>
+      </template>
+      <h4 id="gridLabel" class="hide-display">
+        Test label here {label}
+      </h4>
+       <table class="table slds-table slds-table--bordered slds-table--cell-buffer lwctable" style="table-layout: auto;" role="grid" aria-labelledby="gridLabel">
+         <thead>
+           <tr aria-rowindex="1">
+                <th class="slds-cell-shrink" aria-colindex="1">Select</th>
+                <template for:each={columnList} for:item="column">
+                    <th key={column.fieldName} aria-colindex={column.ariaindex}>{column.label}</th>
+                </template>
+           </tr>
+         </thead>
+       <tbody class="ins">
+       <template for:each={displayList} for:item="displayrow">
+          <tr key={displayrow.index} aria-rowindex={displayrow.ariaindex}>
+               <td class="slds-cell-shrink" aria-colindex="1">
+                   <lightning-input type="checkbox" variant="label-hidden" 
+                     checked={displayrow.checked} name={displayrow.tagname}
+                     data-key={displayrow.tagname} label="dataCheckbox" onchange={handleSelection}
+                     aria-label={displayrow.tagname}> <label id={displayrow.tagname}>Select Row</label>
+                   </lightning-input>
+               </td>
+               <template for:each={displayrow.fields} for:item="field" >
+                  <td key={field.key} aria-colindex={field.ariaindex} aria-readonly="true">
+                    <template if:true={field.dateType}>
+                      <lightning-formatted-date-time value={field.fieldValue}></lightning-formatted-date-time>
+                    </template>
+                    <template if:true={field.numberType}>
+                      <lightning-formatted-number value={field.fieldValue}></lightning-formatted-number>
+                    </template>
+                    <template if:true={field.textType}>
+                      <lightning-formatted-text value={field.fieldValue}></lightning-formatted-text>
+                    </template>
+                  </td>
+               </template>
+           </tr>
+       </template>
+       </tbody>
+       </table>
+    </div>
+</template>

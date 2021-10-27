@@ -1,0 +1,8 @@
+/* CSS rules go here */
+.hide-display {
+    visibility:hidden;
+    height:0px;
+}
+.lwctable tbody tr:focus {
+    background-color: #f3f3f3; /*--- this is a gray color when clicked---*/
+}
