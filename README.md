@@ -2,10 +2,13 @@
 Public Sector - Digital Process Automation Examples
 
 ## What's inside?
-* Example Process - Generate new Inspection Processes using CSV import
+* LicensePermitting - Generate new Inspection Processes using CSV import
 
 ## What it does...
 * It provides a useful tool for creating new inspection types using a formated CSV file. 
+
+## What you'll need to use this example
+* An Pubic Sector Solutions org, installed with Vlocity Public Sector (vlocity_ins managed package)
 
 ## ****Permission Sets Required****
 **Please make sure that your user has the ActionPlans and ActionPlans3 Permission Sets before attempting this process**
