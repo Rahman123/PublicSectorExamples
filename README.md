@@ -5,7 +5,7 @@ Public Sector - Digital Process Automation Examples
 * Example Process - Generate new Inspection Processes using CSV import
 
 ## What it does...
-* It provides a useful tool for creating new inspection types using a formated SV file. 
+* It provides a useful tool for creating new inspection types using a formated CSV file. 
 
 ## ****Permission Sets Required****
 **Please make sure that your user has the ActionPlans and ActionPlans3 Permission Sets before attempting this process**
