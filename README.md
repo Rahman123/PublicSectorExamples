@@ -1,5 +1,5 @@
 # PublicSectorExamples
-Public Sector - Digital Process Automation Examples
+Public Sector Solutions Examples
 
 ## What's inside?
 * LicensePermitting - Generate new Inspection Processes using CSV import
