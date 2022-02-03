@@ -1,0 +1,4 @@
+﻿Blank,TaskDefinition,AssessmentIndicatorName,AssessmentIndicatorType,RegulatoryCodeName,RegulatoryCodeSubject,RegulatoryCodeAuthority
+,Tree Condition,Can Tree be cut down?,Boolean,NYC Trees,NYC Tree,NYC Parks
+,Surrounding Area,Is Surrounding Area Clear of obstructions?,Boolean,NYC Trees,NYC Tree,NYC Parks
+,Surrounding Area,Clearance from street,Number,NYC Trees,NYC Tree,NYC Parks

@@ -192,11 +192,5 @@ See https://success.vlocity.com/s/article/Guide-for-writing-your-own-custom-func
 
 ### Create a Lightning Page for the QuickBuildInspectionTemplateUtilities Flexcard.  
 
-## 
-
-## Demo Accounts/Orgs for Testing
-
-admin@lpi-inspectiontest-1.demo/Salesforce1
-admin@lpi-inspectiontest-2.demo/Salesforce1
 
 The 2 orgs allow for Importing/Exporting between Orgs
