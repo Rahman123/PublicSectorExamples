@@ -1,0 +1,8 @@
+Import the Licensing and Permitting Security Guard Application.json datapack
+Add the cardInput LWC to the Org
+Add the CaptureSignature LWC to the Org
+
+Add the following Regulatory Authorization Type
+    * Name - Security Guard
+    * Regulatory Authorization Category - Permit
+

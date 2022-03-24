@@ -1,0 +1,9 @@
+Add the FoodPermitApplication.pdf as a Document through Salesforce Classic interface
+Import the Food Establishment Permit Application(1).json datapack
+Add the cardInput LWC to the Org
+Add the CaptureSignature LWC to the Org
+
+Add the following Regulatory Authorization Type
+    * Name - Food Establishment
+    * Regulatory Authorization Category - Permit
+

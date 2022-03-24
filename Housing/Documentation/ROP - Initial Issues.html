@@ -1,0 +1,305 @@
+<html>
+<head>
+<title>ROP: ROP - Initial Issues</title>
+<style>
+    body,table,td {
+        font-size: 10pt;
+    }
+    .nested {
+        border-collapse: collapse;
+    }
+    .summary{
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: smaller;
+        margin-left: 5em;
+    }
+    .summary td {
+        padding: 5px;
+        border: 1px;
+        border-style: solid;
+        border-color: #E0E0E0;
+        vertical-align: top;
+    }
+    .os, .os0{
+        width: 95%;
+        border-collapse: collapse;
+        margin-top: 50px;
+        page-break-inside: avoid;
+    }
+
+    .os1{
+        width: calc(95% - 100px);
+        margin-left: 100px;
+        border-collapse: collapse;
+        margin-top: 50px;
+        page-break-inside: avoid;
+    }
+
+    .os2{
+        width: calc(95% - 150px);
+        margin-left: 150px;
+        border-collapse: collapse;
+        margin-top: 50px;
+        page-break-inside: avoid;
+    }
+
+    .os3{
+        width: calc(95% - 200px);
+        margin-left: 200px;
+        border-collapse: collapse;
+        margin-top: 50px;
+        page-break-inside: avoid;
+    }
+
+    .os4{
+        width: calc(95% - 250px);
+        margin-left: 250px;
+        border-collapse: collapse;
+        margin-top: 50px;
+        page-break-inside: avoid;
+    }
+
+    .osn tr {
+        page-break-inside: avoid;
+    }
+
+    .osn td {
+        padding: 5px;
+        border: 1px;
+        border-style: solid;
+        border-color: #E0E0E0;
+        vertical-align: top;
+        page-break-inside: avoid;
+    }
+
+    .header{
+        background-color: #808080;
+        font-size: medium;
+        color: #ffffff;
+    }
+    .header.top {
+        background-color: #000000;
+    }
+    .header-inactive{
+        background-color: #C0c0c0;
+        color: #ffffff;
+    }
+    .header-summary{
+        background-color: #808080;
+        color: #ffffff;
+    }
+    .propname {
+        width: 200px;
+    }
+	.fifty {
+		width: 50%;
+	}
+    .break {
+        page-break-before: always;
+    }
+    span.icon-OmniScript {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAKIAAAAAABMTEx8fHzExMVNTU25ubuzs7P///yH5BAQAAAAALAAAAAAbABsAAANWeLrc/jDKM6q9dbIhuVYeFGqjU3ZoYxjPyQREHBdxK8EyQRN2dNamFAPYcC1+vKDPQdxgnszkR9Kcgi4CAcZqBHGFJPCkS/kup2RyUczemEXv3uf5TAAAOw==);
+}
+span.icon-Done {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAKIAAAAAAEVFRVNTU4CAgJWVlaOjo////wAAACH5BAQAAAAALAAAAAAbABsAAANaaLrc/jDKSaulRegtylUEEHBCABBXODzDWalRi0qwJEcFsFKt95SXEURzIf4EReQxOVRWjA4oRcoAWoSP3G7Si9RiLpoOPJt8GTdLaMQxlS0ZUudDr9vveEcCADs=);
+}
+span.icon-Generic {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAAAwMDBISEh8fHyMjIy0tLTMzMz4+PkFBQU1NTVtbW2RkZHJycnp6eoaGhouLi5SUlJ6enqqqqrKyssTExMnJydPT09ra2uHh4e3t7fPz8////wAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAVZ4CaOZGmeaKqubOu+cCzPbEaPFgIAAqPNmICg8SgAEjMFwDI6ACqyAYH0AERkkAlpAaDcRBRA4buxBAiYr4YguJAdAAl5o/yRJZC5fmQA2MhGf3uDhIWGJSEAOw==);
+}
+span.icon-VIP {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAABwcHCEhISwsLDExMTk5OVlZWWBgYG5ubnV1dX19fYKCgpaWlpmZmaysrMbGxs7OztXV1djY2OLi4urq6vLy8v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAVsoCWOZGmeaKqSTuK+7rOaLewWyKwrub7yPlUFcagEUREAQHY8DQJNFGMRPVEmTYJ2y+1uU4RjGDX2lU3nWZq0VrVFbzJYDPYSBAF7HAWslvp+I4CBFoAUEn4KBC8GAAMNRkcQMI2PkX6HhDMhADs=);
+}
+span.icon-.master icons.graffle.ic {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,YnBsaXN0MDDTAQIDBAUGXE5TVVJMTmFtZUtleV8QEE5TVVJMRmlsZVNpemVLZXlfEBhOU1VSTEZpbGVSZXNvdXJjZVR5cGVLZXlfEBRtYXN0ZXIgaWNvbnMuZ3JhZmZsZREwIl8QHE5TVVJMRmlsZVJlc291cmNlVHlwZVJlZ3VsYXIIDxwvSmFkAAAAAAAAAQEAAAAAAAAABwAAAAAAAAAAAAAAAAAAAIM=);
+}
+span.icon-Rest {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAABUVFRgYGFJSUmNjY3V1dXx8fIGBgY2NjZWVlZubm6SkpKurq7Ozs7u7u8PDw8zMzNHR0dvb2+Li4uvr6/Ly8v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAWGoCWOZGmeaKqubOu+cCyLymRRIjJbiQUdjMjAMNMxEAsLoidTWCSKBwTxcMYitlJlV5LgVA9SeORYPB4ECWpyEAAK8AIgYFAnbIiG+sR2x+V0aggHDwsEDlkoYyKLJhNfXJEmChUOOxQIEwsHFlYyCQgMFAxKOw8GDg6knpEVOpKwsbKzLyEAOw==);
+}
+span.icon-SetErrors {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAOYAAAAAACYjIyglJS8oKDYtLTcwMD41NUE3N0U7O0w+PktCQlVERFhGRl9LS1JMTGJNTVdQUG1VVV1WVmJbW3dbW3teXnxgYGZhYWpkZIJkZIppaXJtbZFubpZxcXZycpx0dHp1daB3d397e6V7e4F9fal+fq6CgoeDg7GEhIiFhbaIiI2Li7yNjZCOjsSTk5mXl86ampybm9Wfn6Sjo9ykpKmnp+Wrq66treqvr+6ysrOzs/K1tfe5uby7u/6+vsTExM7OztTU1N/f3+bm5unp6fLy8v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAf/gEaCg4SFhoeIiYqLgkUAP4yRAghCkYsFKA5FloJEhgY7GSCcRgI6hQg4Pgs1nAgGrYMKNj42B0GWEjAJMYMOND4+LgqbjBguOQsrghIyJh08HBiRHiw+Ow0iRhMwERcIJg8vjCQmwT4RGxcuFTpBFwkEkIQ6xYIrI+c+FAAsGTeCfgQA4EnQEAEDQAARFKPDtXMVcmiYQWjeoCAGPixwMGOGBhUIcujj0EtRj1QwLAzQ8MHDApHBPoxbFIMBj2s7SpyIoUCVjxAtIpGIcA6FthkJaI1IYemChmAsNgiqkdQECUtFHJQQNk3QDXCjLA1B4ALGBHoEpHIKcgAGhEIzFGJx6nFAgSF7nGoAIMW3r9+/hgIBADs=);
+}
+span.icon-Docusign {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAAAgICBUVFR0dHSMjIysrKzMzMzk5OUNDQ0xMTFNTU1xcXGZmZmlpaXJycnt7e4aGhoeIiI2NjZOTk5ycnKWlpbW1tbu7u8PDw8rLy9XV1d3d3ePj4+zs7PPz8////yH5BAQAAAAALAAAAAAbABsAAAWb4CeOZGmeaKqubOu+cCzPdG3fI+eNndmrGUglc5EIOSTMw0LYnSiO3EGBJA08HsGvtDGINh8DpfIgXQoipwkS/VweXomCNEmsHBCRJID5JB5VHw8MKxoFExQIDR8YAApoIgoTLR4TCh4aBBMMGSIdA1snHQwSDg9FC30bEBoZnC8doV+yJhgQt7i5ursRnSK2u8HBvTjFxsfIJyEAOw==);
+}
+span.icon-SetValues {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAAAsLCxUVFRsbGyMjIysrKzMzMzs7O1JSUl1dXWVlZWtra3BwcHl5eYuLi5WVlZubm6Ojo66urrS0tL29vcXFxc7OztLS0tnZ2ePj4+vr6/T09P///wAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAWFICeOZGmeaKqubOu+cCzPdG2nW3aLDLDthwIuEQAYMKqAoRBImBwDygXQ4GgQWOyDMzVMEACKqeJIALaahlot4UAAF07lXCoYHAtAhbOh+P1ICgAiEQATJBMAEhsHgxwZAZGRCxwGABEXBAMlGQMABKA4AAoCnxYnOi8aO6ytrq+wsbIcIQA7);
+}
+span.icon-DRPost {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAAAoKChAQECsrK01NTWtra3V1dYSEhI+Pj5CQkJycnKampqurq7W1tbu7u8TExMzMzNXV1d/f3+Pj4+zs7Pb29v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAV9oCWOZGmeaKqubOu+cCzP7vQ0DYM/EfVWioXj8YAQHY3g66DQNZA5RGLxEuYYWF2R6lpAvuAw91QgNEbesJorMbjfA0BAYIik1WD2Gy6n2/FiKWVnIneAYyyGeIgrimtVgGAKLhQKDUVhDw4Mk5SaWVgOEBM0paanqKmqIyEAOw==);
+}
+span.icon-DRExtract {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAABERER8fHz4+PlFRUWRkZHV1dYWFhYiIiJWVlZqamqenp6ysrLGxsby8vMTExMzMzN/f3+Tk5O3t7fPz8////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAV9YCWOZGmeaKqubOu+cNxSkhTVExVHC+M3DZ8v8iI0HpBk8uFIIF6JhSKhqFIVjsVroYQgu1oXt0sOjwYFyGlMVhre8AAAIEBISOw2BB6f1+8jeW1mImhqJoJlW3pKhCuJYIuMDwcvDwoMQUFCDYAvNDY4OjKkpaanqKmqJCEAOw==);
+}
+span.icon-Response {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAAB0dHS0tLTIyMkBAQEhISFVVVVxcXGJiYoeHh4yMjJGRkZmZmbS0tLm5ucXFxdXV1dnZ2ePj4+3t7fLy8v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAVHYCWOZGmeaKqubOu+cCyb1Gw2jF0Wgj5OAADEV5EYCBFiJYFQVhRNJdSpOFCtUixxofVxbY+BeBDowiaOtKMhcbrf8LgcFQIAOw==);
+}
+span.icon-Step {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbALMAAAAAADExMV1dXXV1dX5+foyMjNvb2+Tk5P///wAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAR4EMlJq704681t+GAojkFVdp6JEEPbHpLhuoR0TiU7w4g8DzXEzYZKUYZFoUrn4vlmQWTu5/wBicdkdqtVZplWa3QZLo+5WmkXi8MUBPA4vMCuUwSAvD4vsCMneHt6fV5tF4GCAIRqF29ycXSFdkWMXVIkmCNrm1oRADs=);
+}
+span.icon-Calc {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbALMAAAAAABQUFCAgIEhISFlZWWVlZXJycpubm6Ojo6urq9jY2O3t7f///wAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAARZkMlJq704682SSBw3AEO4jaWZoepKthjbKsRg2wEQ3EOxbAaAcEgkIjY03iC3u/lgDBmUIp1KqlbsVAvlwgqAgpWyOPzG6KRy/dQEi3DhUaNe89rovH4PiwAAOw==);
+}
+span.icon-Remote {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAABUVFRgYGCoqKjc3N0NDQ0tLS1VVVV1dXWFhYW9vb3V1dXp6eoGBgYmJiZWVlZ2dnaOjo6qqqrCwsLq6usPDw8vLy9TU1Nvb2+Hh4e7u7vHx8f///wAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAV+ICeOZGmeaKqubOu+cCyXmCVi0Dw2CpNkOlHEcHgEOZYcR+IIViSXCScRpEAqRsSqQuKOKAZEYaE9ZRoCwGK9AAQYGNFGs6mjzml2+x3XECktXiKCHFZTR4UGDAMMEkcaGhcOTTobDwgEEUcYBwsJF4gcGhEJRqGnqKmqqykhADs=);
+}
+span.icon-OmniForm {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAKIAAAAAAGlpaXBwcJ6enqenp8zMzP///wAAACH5BAQAAAAALAAAAAAbABsAAANhaLrc/jDKSau9mInAu/+BEAXFQJxoSgxFEYwFMRHtC5GyRLtwHu22B25W6xF5t5JqyUIKW9CotJicWqlP0zLVDDqGOuw3dvQ2wD/xmRx2jrXbUxd2tZo1oHxHlOn7/4AYCQA7);
+}
+span.icon-DRTransform {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAMQAAAAAAAkJCRISEhsbGyYmJjExMTw8PEdHR0pKSlJSUltbW2dnZ2hoaHV1dXp6eoCAgKSkpK+vr7CwsMLCwsjIyNfX19/f3+Li4u7u7vPz8////wAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAAAbABsAAAWGoCaOZGmeaKqubOu+cCxiMkoYUFYmRe/3gYqmEvgJAIKBS+LQOCKkW851OWgOFxIthqAgaiWHGEyKGKAkhGJSsjTe8DgjwIg3BoDA4JHVuO1yAQt2eHp8LWZoI2psL2JNZCJdX5FVV30zMUxOElE4OiQ8Pz5BQ0U+R0mRGlKgZFursbKzLiEAOw==);
+}
+span.icon-Matrix {
+  vertical-align: middle;  padding-right: 10px;  content: url(data:image/gif;base64,R0lGODdhGwAbAKIAAAAAAFVVVXBwcICAgOnp6f///wAAAAAAACH5BAQAAAAALAAAAAAbABsAAAN0WLrc/jDKSau9mInNu+eRMATBQBBjiZKmEAYAEJywTNSzCwk4Hc893UPEOqVMR4LQITg5n9DTstGMWqWh5EqVnGp6t1/Y5l3wxGOguKwgqrbIIrtQvUbnbhN8jwf3gi9of2tZRXtdIXZWeB+NHRmQkZKTGQkAOw==);
+}
+
+</style>
+</head>
+<body>
+<table style="width: 95%;">
+    <tr>
+        <td><h1>Documentation for ROP - Initial Issues</h1>
+<h3>Generated at 2022-02-02 17:32</h3>
+</td>
+        <td style="text-align: right;">
+            <svg version="1.1" id="Layer_2_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 350 150" style="enable-background:new 0 0 350 150; width: 300px;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#008BB3;}
+	.st1{fill:#696767;}
+	.st2{fill:#B1B0AF;}
+</style>
+<path class="st0" d="M74.8,46.7c-2.1-5.5-7.3-9.2-13.2-9.2c-1.9,0-3.8,0.4-5.5,1.1c-4.1-3.9-9.5-6-15.1-6c-11.5,0-21.1,9-21.9,20.4
+	c-7,2.9-11.5,9.7-11.5,17.3C7.6,80.6,16,89,26.3,89c2,0,4.4,0,6.9,0l1.1-7.4l-8,0c-6.1,0-11.2-5.2-11.2-11.3c0-5.2,3.5-9.6,8.6-10.8
+	l3.1-0.7l-0.2-3.5l0-0.1c0-0.2,0-0.4,0-0.6c0-7.9,6.4-14.4,14.4-14.4c4.5,0,8.6,2,11.4,5.6l2.3,3l0.1-0.1c1.3-2.3,3.8-3.8,6.5-3.8
+	c4.1,0,7.5,3.4,7.5,7.5c0,0.8-0.3,2.5-0.3,2.5l0,0.2l0.2,0c0,0,2.9-0.8,5.9-0.8c7.5,0,13.7,6.1,13.7,13.7c0,7.5-6.1,13.7-13.7,13.7
+	l-4.5,0L65.8,89c3.8,0,7,0,8.8,0h0h0c11.6-0.4,21.1-9.8,21.1-21.1C95.7,56.4,86.3,46.8,74.8,46.7z"/>
+<g>
+	<g>
+		<path class="st0" d="M122.7,89l-18.3-47.4h11.4L129.1,78l13.2-36.4h11.4L135.4,89H122.7z"/>
+		<path class="st0" d="M158.6,89V41.5h9V89H158.6z"/>
+		<path class="st0" d="M173.7,71.8c0-9.7,6.8-18,18.1-18c11.4,0,18.2,8.2,18.2,18c0,9.7-6.8,18.1-18.2,18.1
+			C180.5,89.8,173.7,81.5,173.7,71.8z M200.6,71.8c0-5.3-3.1-10-8.8-10c-5.6,0-8.7,4.6-8.7,10c0,5.4,3.1,10,8.7,10
+			C197.5,81.8,200.6,77.2,200.6,71.8z"/>
+		<path class="st0" d="M213.8,71.8c0-10.5,7.7-18,18.2-18c7,0,11.3,3.1,13.6,6.2l-5.9,5.5c-1.6-2.4-4.1-3.7-7.3-3.7
+			c-5.5,0-9.3,4-9.3,10c0,6,3.8,10,9.3,10c3.1,0,5.6-1.4,7.3-3.8l5.9,5.5c-2.3,3.1-6.5,6.3-13.6,6.3
+			C221.5,89.8,213.8,82.4,213.8,71.8z"/>
+		<path class="st0" d="M250,45.5c0-3,2.4-5.3,5.3-5.3c3,0,5.4,2.3,5.4,5.3c0,3-2.4,5.4-5.4,5.4C252.4,50.9,250,48.5,250,45.5z
+			 M250.8,89V54.6h9V89H250.8z"/>
+		<path class="st0" d="M271.4,80.4V62.5h-5.7v-7.9h5.7v-9.4h9v9.4h7v7.9h-7V78c0,2.2,1.1,3.8,3.1,3.8c1.4,0,2.6-0.5,3.1-1.1l1.9,6.9
+			c-1.4,1.2-3.8,2.2-7.5,2.2C274.7,89.8,271.4,86.6,271.4,80.4z"/>
+		<path class="st0" d="M295.8,94.3c0.8,0.4,2,0.6,2.8,0.6c2.3,0,3.9-0.6,4.8-2.5l1.3-3l-13.9-34.8h9.7l9,23.9l9-23.9h9.7l-16.1,40
+			c-2.6,6.5-7.1,8.2-13,8.3c-1,0-3.3-0.2-4.4-0.6L295.8,94.3z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path class="st1" d="M122.9,122.5v-9.3h1.6v9.3H122.9z"/>
+		<path class="st1" d="M134.8,122.5l-4.8-6.6v6.6h-1.6v-9.3h1.7l4.7,6.4v-6.4h1.6v9.3H134.8z"/>
+		<path class="st1" d="M140.1,122.5v-9.3h3.4c2.9,0,4.9,1.9,4.9,4.6c0,2.7-1.9,4.6-4.8,4.6H140.1z M146.8,117.9
+			c0-1.8-1.1-3.2-3.2-3.2h-1.8v6.4h1.8C145.6,121.1,146.8,119.6,146.8,117.9z"/>
+		<path class="st1" d="M151.8,118.8v-5.6h1.7v5.6c0,1.5,0.8,2.4,2.4,2.4c1.5,0,2.4-1,2.4-2.4v-5.6h1.7v5.6c0,2.3-1.3,3.8-4,3.8
+			C153.1,122.7,151.8,121.1,151.8,118.8z"/>
+		<path class="st1" d="M163,121.2l0.9-1.3c0.6,0.7,1.6,1.3,2.9,1.3c1.3,0,1.8-0.7,1.8-1.3c0-1.9-5.4-0.7-5.4-4.1
+			c0-1.5,1.3-2.7,3.4-2.7c1.4,0,2.6,0.5,3.5,1.3l-0.9,1.2c-0.7-0.7-1.7-1.1-2.7-1.1c-0.9,0-1.6,0.5-1.6,1.2c0,1.7,5.4,0.7,5.4,4.1
+			c0,1.5-1.1,2.9-3.6,2.9C165.1,122.7,163.9,122.1,163,121.2z"/>
+		<path class="st1" d="M175.8,122.5v-7.8h-2.8v-1.4h7.2v1.4h-2.8v7.8H175.8z"/>
+		<path class="st1" d="M188.7,122.5l-2-3.5H185v3.5h-1.6v-9.3h4.1c1.8,0,3,1.2,3,2.9c0,1.6-1.1,2.5-2.2,2.7l2.3,3.6H188.7z
+			 M188.8,116.1c0-0.9-0.7-1.5-1.6-1.5H185v2.9h2.2C188.2,117.6,188.8,117,188.8,116.1z"/>
+		<path class="st1" d="M196.3,122.5v-3.9l-3.6-5.4h1.9l2.5,4l2.5-4h1.9l-3.6,5.4v3.9H196.3z"/>
+		<path class="st1" d="M209.3,117.9c0-2.9,2.1-4.8,4.9-4.8c1.9,0,3,1,3.7,2.1l-1.4,0.7c-0.4-0.8-1.3-1.3-2.3-1.3
+			c-1.8,0-3.2,1.4-3.2,3.4c0,1.9,1.4,3.4,3.2,3.4c1,0,1.9-0.6,2.3-1.3l1.4,0.7c-0.7,1.1-1.9,2.1-3.7,2.1
+			C211.5,122.7,209.3,120.7,209.3,117.9z"/>
+		<path class="st1" d="M220.9,122.5v-9.3h1.6v7.8h4.1v1.4H220.9z"/>
+		<path class="st1" d="M229.1,117.9c0-2.8,2-4.8,4.7-4.8c2.8,0,4.7,2,4.7,4.8c0,2.8-2,4.8-4.7,4.8
+			C231,122.7,229.1,120.6,229.1,117.9z M236.9,117.9c0-1.9-1.2-3.4-3.1-3.4c-1.9,0-3.1,1.4-3.1,3.4c0,1.9,1.2,3.4,3.1,3.4
+			C235.7,121.2,236.9,119.8,236.9,117.9z"/>
+		<path class="st1" d="M241.9,118.8v-5.6h1.7v5.6c0,1.5,0.8,2.4,2.4,2.4c1.5,0,2.4-1,2.4-2.4v-5.6h1.7v5.6c0,2.3-1.3,3.8-4,3.8
+			C243.2,122.7,241.9,121.1,241.9,118.8z"/>
+		<path class="st1" d="M253.7,122.5v-9.3h3.4c2.9,0,4.9,1.9,4.9,4.6c0,2.7-1.9,4.6-4.8,4.6H253.7z M260.4,117.9
+			c0-1.8-1.1-3.2-3.2-3.2h-1.8v6.4h1.8C259.2,121.1,260.4,119.6,260.4,117.9z"/>
+		<path class="st1" d="M277.3,122.5l-0.7-1.8h-4.3l-0.7,1.8h-1.8l3.6-9.3h2l3.6,9.3H277.3z M274.5,114.9l-1.7,4.4h3.3L274.5,114.9z"
+			/>
+		<path class="st1" d="M282,122.5v-9.3h4.1c1.9,0,3,1.3,3,2.9c0,1.6-1.1,2.9-3,2.9h-2.5v3.5H282z M287.4,116.1
+			c0-0.9-0.7-1.5-1.6-1.5h-2.2v2.9h2.2C286.7,117.6,287.4,117,287.4,116.1z"/>
+		<path class="st1" d="M292.2,122.5v-9.3h4.1c1.9,0,3,1.3,3,2.9c0,1.6-1.1,2.9-3,2.9h-2.5v3.5H292.2z M297.7,116.1
+			c0-0.9-0.7-1.5-1.6-1.5h-2.2v2.9h2.2C297,117.6,297.7,117,297.7,116.1z"/>
+		<path class="st1" d="M301.9,121.2l0.9-1.3c0.6,0.7,1.6,1.3,2.9,1.3c1.3,0,1.8-0.7,1.8-1.3c0-1.9-5.4-0.7-5.4-4.1
+			c0-1.5,1.3-2.7,3.4-2.7c1.4,0,2.6,0.5,3.5,1.3l-0.9,1.2c-0.7-0.7-1.7-1.1-2.7-1.1c-0.9,0-1.6,0.5-1.6,1.2c0,1.7,5.4,0.7,5.4,4.1
+			c0,1.5-1.1,2.9-3.6,2.9C304,122.7,302.7,122.1,301.9,121.2z"/>
+	</g>
+</g>
+<g>
+	<path class="st2" d="M336.3,60.7v-5.1h-1.8v-0.9h4.7v0.9h-1.8v5.1H336.3z"/>
+	<path class="st2" d="M345.5,60.7V56l-1.8,4.6h-0.5l-1.8-4.6v4.6h-1.1v-6h1.5l1.6,4.1l1.6-4.1h1.5v6H345.5z"/>
+</g>
+<polygon class="st0" points="45.2,60.3 59,60.3 51.5,81.6 62.7,81.6 46.1,111 49.5,89.1 40.1,89.1 "/>
+</svg></td>
+    </tr>
+</table>
+<hr>
+<h2>Index of Report</h2>
+<ul>
+    <li><a href="#ossummary">Summary of OmniScript Structure</a></li>
+    <li><a href="#osdetail">Detail of OmniScript Structure</a></li>
+    <li><a href="#drsummary">Summary of DataRaptors Used</a></li>
+    <li><a href="#drdetail">Details of DataRaptors Used</a></li>
+    <li><a href="#endnotes">Explanatory Notes</a></li>
+</ul>
+<h2>Overview of this OmniScript</h2>
+<p>There are 2 top level elements in this OmniScript.<br>There are 4 total elements in thisOmniScript.</p>
+<p>&nbsp;</p><table class="os osn">
+    <tr>
+        <td class="header top propname">ROP - Initial Issues</td>
+        <td class="header top">ROP/Situation Questions Version 1.0</td>
+    </tr>
+    
+    <tr>
+        <td class="propname">Last Modified Date</td>
+        <td>2022-02-02T17:26:40.000+0000</td>
+    </tr>
+    <tr>
+        <td class="propname">Has Custom JavaScript</td>
+        <td>False</td>
+    </tr>
+    <tr>
+        <td class="propname">Has Custom HTML</td>
+        <td>True</td>
+    </tr>
+    <tr>
+        <td class="propname">Notes</td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+<p>&nbsp;</p><p style="page-break-before: always;">&nbsp;</p>
+<hr>
+<a name="ossummary"><h2>Summary of OmniScript Structure</h2></a>
+<hr>
+<table class="summary">
+<tr class="header-summary"><td>Type</td><td>Name</td><td>Child Elements</td></tr><tr>
+<td class="propname"><span class="icon-Step"></span>Step</td>
+<td>HousingCircumstances</td>
+<td>Multi-select, Formula</td>
+</tr>
+<tr>
+<td class="propname"><span class="icon-OmniScript"></span>OmniScript</td>
+<td>ROPEviction1</td>
+<td></td>
+</tr>
+</table>
+<p style="page-break-before: always;">&nbsp;</p>
+<hr>
+<a name="osdetail"><h2>Details of OmniScript</h2></a>
+<hr>
+<table class="osn os0">
+<tr>
+<td class="header propname">Step<td class="header">HousingCircumstances</td>
+</tr>
+<tr>
+<td class="propname">Label</td>
+<td>What assistance do you need?</td>
+<tr></table>
+<table class="osn os1">
+<tr>
+<td class="header propname">Multi-select<td class="header">AssistanceNeeded</td>
+</tr>
