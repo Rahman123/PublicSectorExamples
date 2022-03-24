@@ -3,6 +3,9 @@ Public Sector Solutions Examples
 
 ## What's inside?
 * LicensePermitting - Generate new Inspection Processes using CSV import
+*
+*
+*
 
 ## What it does...
 * It provides a useful tool for creating new inspection types using a formated CSV file. 
