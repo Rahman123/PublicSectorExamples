@@ -8,15 +8,6 @@ The  *Partner Pocket Guide*  is your one-stop shop for all content and tools to 
 Related instructions can be found [here](#obtain-an-org) to help you obtain an Org. 
 
 ## What's inside?
-### Housing
-The following OmniStudio Datapacks are included along with a readme:
- 1. List item
- 2. Housing - Initial Issues.json
- 3. Housing Assessment Selector.json
- 4. Housing Book Viewing.json
- 5. Housing Create Stock.json
- 6. Housing Quality Review.json
- 7. Housing Service Request.json
 
 ### Inspections
 #### Aircraft Inspections
@@ -55,14 +46,22 @@ The following OmniStudio Datapacks are included along with a readme:
  1. Licensing and Permitting Security Guard Application.json
  2. SecurityGuardSteps.txt
 
- #### AlcoholLicensing
+#### AlcoholLicensing
 
  1. Alcohol Brand Label Registration.json
  2. Alcohol Keg Tag Reorder.json
  3. Alcohol License Needs Assess.json
  4. GeneralAlcoholLicense.json
 
-
+### Housing
+The following OmniStudio Datapacks are included along with a readme:
+ 1. List item
+ 2. Housing - Initial Issues.json
+ 3. Housing Assessment Selector.json
+ 4. Housing Book Viewing.json
+ 5. Housing Create Stock.json
+ 6. Housing Quality Review.json
+ 7. Housing Service Request.json
 
 ## Obtain an Org
 -   ### Get a 30 day org
